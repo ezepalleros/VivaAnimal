@@ -61,5 +61,21 @@ class ConsultaController {
 
         include 'views/modules/cliente/tus_consultas.php';
     }
+
+    public function getByEmpleado() {
+        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'empleado') {
+            header("Location: index.php?modulo=login");
+            exit;
+        }
+    
+        $model = new ConsultaModel();
+        $id_empleado = $model->getEmpleadoIdByUsuario($_SESSION['usuario']['id_usu']);
+    
+        $consultasPendientes = $model->getConsultasPorEmpleado($id_empleado, 0);
+        $consultasAtendidas = $model->getConsultasPorEmpleado($id_empleado, 1);
+    
+        include 'views/modules/empleado/emp_consultas.php';
+    }
+    
 }
 

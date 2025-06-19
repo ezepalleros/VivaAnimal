@@ -9,7 +9,6 @@ require_once 'controllers/consulta_controller.php';
 $modulo = $_GET['modulo'] ?? 'login';
 
 switch ($modulo) {
-
     case 'login':
         (new UsuarioController())->login();
         break;
@@ -51,11 +50,15 @@ switch ($modulo) {
         break;
 
     case 'emplepage':
-        include 'views/modules/empleado/emplepage.php';
+        (new EmpleadoController())->verPanel();
         break;
 
     case 'emp_consultas':
-        include 'views/modules/empleado/admin_consultas.php';
+        (new ConsultaController())->getByEmpleado();
+        break;
+
+    case 'emp_especialidad':
+        (new EmpleadoController())->editarEspecialidad();
         break;
 
     case 'adminpage':
@@ -106,7 +109,12 @@ switch ($modulo) {
         (new ConsultaController())->guardar();
         break;
 
+    case 'aceptar_consulta':
+        (new EmpleadoController())->aceptarConsulta();
+        break;
+
     default:
         echo "<h2>Módulo no encontrado: <code>$modulo</code></h2>";
         break;
 }
+

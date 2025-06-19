@@ -17,4 +17,23 @@ class EmpleadoModel {
         $stmt = $this->conn->prepare("INSERT INTO empleado (nombre, especialidad, contratacion, id_usuario) VALUES (?, ?, ?, ?)");
         return $stmt->execute([$nombre, $especialidad, $contratacion, $id_usuario]);
     }
+
+    public function getByUsuarioId($id_usuario) {
+        $stmt = $this->conn->prepare("SELECT * FROM empleado WHERE id_usuario = ?");
+        $stmt->execute([$id_usuario]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getByUsuario($id_usuario) {
+        $stmt = $this->conn->prepare("SELECT * FROM empleado WHERE id_usuario = ?");
+        $stmt->execute([$id_usuario]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function actualizarEspecialidad($id_emp, $nuevaEspecialidad) {
+        $stmt = $this->conn->prepare("UPDATE empleado SET especialidad = ? WHERE id_emp = ?");
+        return $stmt->execute([$nuevaEspecialidad, $id_emp]);
+    }
+    
+    
 }

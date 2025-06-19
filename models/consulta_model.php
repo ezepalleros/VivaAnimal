@@ -69,4 +69,38 @@ class ConsultaModel {
         $stmt->execute([$id_animal, $id_usuario]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getConsultasPorEmpleado($id_emp, $estado) {
+        $stmt = $this->conn->prepare("
+            SELECT c.id_con, c.fecha, c.descripcion, c.estado,
+                   a.nombre AS nombre_animal, a.especie
+            FROM consulta c
+            JOIN animal a ON c.id_animal = a.id_ani
+            WHERE c.id_empleado = ? AND c.estado = ?
+            ORDER BY c.fecha ASC
+        ");
+        $stmt->execute([$id_emp, (int)$estado]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function marcarComoAtendida($id_con) {
+        $stmt = $this->conn->prepare("UPDATE consulta SET estado = TRUE WHERE id_con = ?");
+        return $stmt->execute([$id_con]);
+    }
+
+    public function getByEmpleadoAndEstado($id_empleado, $estado) {
+        $stmt = $this->conn->prepare("SELECT c.*, a.nombre AS nombre_animal 
+                                       FROM consulta c 
+                                       JOIN animal a ON c.id_animal = a.id_ani 
+                                       WHERE c.id_empleado = ? AND c.estado = ?");
+        $stmt->execute([$id_empleado, $estado]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getEmpleadoIdByUsuario($id_usuario) {
+        $stmt = $this->conn->prepare("SELECT id_emp FROM empleado WHERE id_usuario = ?");
+        $stmt->execute([$id_usuario]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['id_emp'] ?? null;
+    }
 }
