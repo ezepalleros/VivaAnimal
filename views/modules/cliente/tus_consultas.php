@@ -1,3 +1,12 @@
+<?php
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
+    header("Location: index.php?modulo=login");
+    exit;
+}
+?>
+
+<h2>Consultas de <?= htmlspecialchars($animal['nombre'] ?? '') ?></h2>
+
 <?php if (isset($consultas) && count($consultas) > 0): ?>
     <ul>
         <?php foreach ($consultas as $consulta): ?>
@@ -13,3 +22,5 @@
 <?php else: ?>
     <p>No tiene ninguna consulta.</p>
 <?php endif; ?>
+
+<p><a href="index.php?modulo=tus_animales">← Volver a mis animales</a></p>

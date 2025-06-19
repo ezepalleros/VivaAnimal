@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once 'controllers/cliente_controller.php';
+require_once 'controllers/usuario_controller.php';
 require_once 'controllers/empleado_controller.php';
 require_once 'controllers/animal_controller.php';
 require_once 'controllers/consulta_controller.php';
@@ -11,15 +11,15 @@ $modulo = $_GET['modulo'] ?? 'login';
 switch ($modulo) {
 
     case 'login':
-        (new ClienteController())->login();
+        (new UsuarioController())->login();
         break;
 
     case 'register':
-        (new ClienteController())->register();
+        (new UsuarioController())->register();
         break;
 
     case 'logout':
-        (new ClienteController())->logout();
+        (new UsuarioController())->logout();
         break;
 
     case 'homepage':
@@ -43,13 +43,12 @@ switch ($modulo) {
         break;
 
     case 'tus_consultas':
-    (new ConsultaController())->getByAnimal();
-    break;
+        (new ConsultaController())->getByAnimal();
+        break;
 
     case 'hacer_consulta':
-    (new ConsultaController())->index();
-    break;
-
+        (new ConsultaController())->index();
+        break;
 
     case 'emplepage':
         include 'views/modules/empleado/emplepage.php';
@@ -79,12 +78,12 @@ switch ($modulo) {
         include 'views/modules/admin/ver_consultas.php';
         break;
 
-    case 'clientes':
-        (new ClienteController())->index();
+    case 'usuarios':
+        (new UsuarioController())->index();
         break;
 
-    case 'guardar_cliente':
-        (new ClienteController())->guardar();
+    case 'guardar_usuario':
+        (new UsuarioController())->guardar();
         break;
 
     case 'empleados':

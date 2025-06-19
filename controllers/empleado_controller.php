@@ -3,7 +3,7 @@ require_once 'models/empleado_model.php';
 
 class EmpleadoController {
     public function index() {
-        if (!isset($_SESSION['cliente']) || $_SESSION['cliente']['rol'] !== 'admin') {
+        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             echo "<script>alert('Acceso no autorizado'); window.location.href='index.php?modulo=login';</script>";
             exit;
         }
@@ -15,7 +15,7 @@ class EmpleadoController {
     }
 
     public function guardar() {
-        if (!isset($_SESSION['cliente']) || $_SESSION['cliente']['rol'] !== 'empleado') {
+        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             echo "<script>alert('Acceso no autorizado'); window.location.href='index.php?modulo=login';</script>";
             return;
         }
@@ -26,7 +26,7 @@ class EmpleadoController {
                 $_POST['nombre'],
                 $_POST['especialidad'],
                 $_POST['contratacion'],
-                $_SESSION['cliente']['id_cli']
+                $_POST['id_usuario'] ?? null // Si guardás usuario aparte, o ajusta
             );
             header("Location: index.php?modulo=empleados");
         }

@@ -1,31 +1,30 @@
 <?php
-require_once 'models/cliente_model.php';
+require_once 'models/usuario_model.php';
 
-class ClienteController {
+class UsuarioController {
     public function index() {
-        $model = new ClienteModel();
-        $clientes = $model->getAll();
-        include 'views/modules/clientes.php';
+        $model = new UsuarioModel();
+        $usuarios = $model->getAll();
+        include 'views/modules/usuarios.php';
     }
 
     public function guardar() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $model = new ClienteModel();
+            $model = new UsuarioModel();
             $model->save($_POST['nombre'], $_POST['email'], $_POST['telefono'], $_POST['direccion'], 'cliente');
-            header("Location: index.php?modulo=clientes");
+            header("Location: index.php?modulo=usuarios");
         }
     }
 
     public function login() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $model = new ClienteModel();
-            $cliente = $model->login($_POST['email'], $_POST['telefono']);
+            $model = new UsuarioModel();
+            $usuario = $model->login($_POST['email'], $_POST['telefono']);
 
-            if ($cliente) {
-                session_start();
-                $_SESSION['cliente'] = $cliente;
+            if ($usuario) {
+                $_SESSION['usuario'] = $usuario;
 
-                switch ($cliente['rol']) {
+                switch ($usuario['rol']) {
                     case 'cliente':
                         header("Location: index.php?modulo=homepage");
                         break;
@@ -46,7 +45,7 @@ class ClienteController {
 
     public function register() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $model = new ClienteModel();
+            $model = new UsuarioModel();
             $model->save($_POST['nombre'], $_POST['email'], $_POST['telefono'], $_POST['direccion'], 'cliente');
             echo "<script>alert('Registro exitoso. Ahora podés iniciar sesión.'); window.location.href='index.php?modulo=login';</script>";
         } else {

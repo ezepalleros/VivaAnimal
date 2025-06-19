@@ -1,11 +1,14 @@
 <?php
-if (!isset($_SESSION['cliente']) || $_SESSION['cliente']['rol'] !== 'cliente') {
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
     header("Location: index.php?modulo=login");
     exit;
 }
 ?>
-
-<h1>Bienvenido, <?= htmlspecialchars($_SESSION['cliente']['nombre']) ?>!</h1>
+<h1>Bienvenido, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>!</h1>
 <p>Este es tu panel como cliente.</p>
 
 <ul>
