@@ -36,6 +36,7 @@ CREATE TABLE consultas (
     descripcion TEXT,
     id_animal INT,
     id_empleado INT,
+    estado BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_animal) REFERENCES animales(id_ani),
     FOREIGN KEY (id_empleado) REFERENCES empleados(id_emp)
 );
@@ -59,8 +60,8 @@ INSERT INTO animales (id_ani, nombre, edad, especie, raza, id_cliente) VALUES
 (10003, 'Juanero', 2, 'Perro', 'Dóberman', 1002),
 (10004, 'Palta', 4, 'Gato', 'Persa', 1002);
 
-INSERT INTO consultas (id_con, fecha, descripcion, id_animal, id_empleado) VALUES
-(101, '2024-06-10', 'Vacunación antirrábica', 10001, 2001),
-(102, '2024-07-05', 'Control general', 10002, 2002),
-(103, '2024-07-12', 'Dolor en pata trasera', 10003, 2002),
-(104, '2024-08-01', 'Ecografía abdominal', 10004, 2003);
+INSERT INTO consultas (id_con, fecha, descripcion, id_animal, id_empleado, estado) VALUES
+(101, '2024-06-10', 'Vacunación antirrábica', 10001, 2001, TRUE),
+(102, '2024-07-05', 'Control general', 10002, 2002, TRUE),
+(103, '2024-07-12', 'Dolor en pata trasera', 10003, 2002, TRUE),
+(104, '2024-08-01', 'Ecografía abdominal', 10004, 2003, TRUE);

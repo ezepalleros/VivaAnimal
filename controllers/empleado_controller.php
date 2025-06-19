@@ -3,8 +3,6 @@ require_once 'models/empleado_model.php';
 
 class EmpleadoController {
     public function index() {
-        session_start();
-
         if (!isset($_SESSION['cliente']) || $_SESSION['cliente']['rol'] !== 'admin') {
             echo "<script>alert('Acceso no autorizado'); window.location.href='index.php?modulo=login';</script>";
             exit;
@@ -17,8 +15,6 @@ class EmpleadoController {
     }
 
     public function guardar() {
-        session_start();
-
         if (!isset($_SESSION['cliente']) || $_SESSION['cliente']['rol'] !== 'empleado') {
             echo "<script>alert('Acceso no autorizado'); window.location.href='index.php?modulo=login';</script>";
             return;

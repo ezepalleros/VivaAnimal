@@ -27,46 +27,55 @@ switch ($modulo) {
         break;
 
     case 'tus_animales':
-        include 'views/modules/cliente/tus_animales.php';
+        (new AnimalController())->index();
         break;
 
-    case 'ver_consultas':
-        include 'views/modules/cliente/ver_consultas.php';
+    case 'guardar_animal':
+        (new AnimalController())->guardar();
         break;
+
+    case 'editar_animal':
+        (new AnimalController())->editar();
+        break;
+
+    case 'eliminar_animal':
+        (new AnimalController())->eliminar();
+        break;
+
+    case 'tus_consultas':
+    (new ConsultaController())->getByAnimal();
+    break;
 
     case 'hacer_consulta':
-        include 'views/modules/cliente/hacer_consulta.php';
-        break;
+    (new ConsultaController())->index();
+    break;
+
 
     case 'emplepage':
         include 'views/modules/empleado/emplepage.php';
         break;
 
-    case 'admin_consultas':
+    case 'emp_consultas':
         include 'views/modules/empleado/admin_consultas.php';
-        break;
-
-    case 'ver_consultas_emp':
-        include 'views/modules/empleado/ver_consultas_emp.php';
         break;
 
     case 'adminpage':
         include 'views/modules/admin/adminpage.php';
         break;
 
-    case 'ver_usuarios':
+    case 'admin_usuarios':
         include 'views/modules/admin/ver_usuarios.php';
         break;
 
-    case 'ver_empleados':
+    case 'admin_empleados':
         include 'views/modules/admin/ver_empleados.php';
         break;
 
-    case 'ver_animales':
+    case 'admin_animales':
         include 'views/modules/admin/ver_animales.php';
         break;
 
-    case 'ver_consultas_admin':
+    case 'admin_consultas_admin':
         include 'views/modules/admin/ver_consultas.php';
         break;
 
@@ -88,10 +97,6 @@ switch ($modulo) {
 
     case 'animales':
         (new AnimalController())->index();
-        break;
-
-    case 'guardar_animal':
-        (new AnimalController())->guardar();
         break;
 
     case 'consultas':

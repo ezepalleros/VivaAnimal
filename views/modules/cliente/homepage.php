@@ -1,6 +1,4 @@
 <?php
-// session_start(); // ← Esto ya está hecho en index.php
-
 if (!isset($_SESSION['cliente']) || $_SESSION['cliente']['rol'] !== 'cliente') {
     header("Location: index.php?modulo=login");
     exit;
@@ -12,7 +10,6 @@ if (!isset($_SESSION['cliente']) || $_SESSION['cliente']['rol'] !== 'cliente') {
 
 <ul>
     <li><a href="index.php?modulo=tus_animales">Ver tus animales</a></li>
-    <li><a href="index.php?modulo=ver_consultas">Ver tus consultas</a></li>
     <li><a href="index.php?modulo=hacer_consulta">Solicitar nueva consulta</a></li>
     <li><a href="index.php?modulo=logout">Cerrar sesión</a></li>
 </ul>
