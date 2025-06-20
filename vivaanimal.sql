@@ -40,7 +40,7 @@ CREATE TABLE consulta (
 );
 
 INSERT INTO usuario (id_usu, nombre, email, telefono, direccion, rol) VALUES
-(1001, 'Gabriela Pasos', 'gabriela@mail.com', '1145899762', 'Cuenca 2453', 'cliente'),
+(1001, 'Gabriela Pasos', 'gabriela@gmail.com', '1145899762', 'Cuenca 2453', 'cliente'),
 (1002, 'Ana Marciano', 'ana@gmail.com', '1189663232', 'Arregui 1552', 'cliente'),
 (1003, 'Carlos Pantera', 'carlos@gmail.com', '1145218734', 'Campana 3221', 'empleado'),
 (1004, 'Laura Admin', 'admin@gmail.com', '1198225901', 'Marcos Sastre 2119', 'admin'),

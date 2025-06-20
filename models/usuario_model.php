@@ -9,7 +9,14 @@ class UsuarioModel {
     }
 
     public function getAll() {
-        $stmt = $this->conn->query("SELECT * FROM usuario");
+        $stmt = $this->conn->query("
+            SELECT 
+                usuario.*, 
+                empleado.especialidad, 
+                empleado.contratacion 
+            FROM usuario 
+            LEFT JOIN empleado ON usuario.id_usu = empleado.id_usuario
+        ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -25,9 +32,42 @@ class UsuarioModel {
     }
 
     public function getByEmail($email) {
-    $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE email = ?");
-    $stmt->execute([$email]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
+    public function eliminar($id) {
+        $stmt = $this->conn->prepare("DELETE FROM usuario WHERE id_usu = ?");
+        return $stmt->execute([$id]);
+    }
+
+    public function getByRol($rol) {
+        $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE rol = ?");
+        $stmt->execute([$rol]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function update($id_usu, $nombre, $email, $telefono, $direccion, $rol) {
+        $stmt = $this->conn->prepare("
+            UPDATE usuario 
+            SET nombre = ?, email = ?, telefono = ?, direccion = ?, rol = ?
+            WHERE id_usu = ?
+        ");
+        return $stmt->execute([$nombre, $email, $telefono, $direccion, $rol, $id_usu]);
+    }
+
+    public function getById($id) {
+        $stmt = $this->conn->prepare("
+            SELECT 
+                usuario.*, 
+                empleado.especialidad, 
+                empleado.contratacion 
+            FROM usuario 
+            LEFT JOIN empleado ON usuario.id_usu = empleado.id_usuario
+            WHERE usuario.id_usu = ?
+        ");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

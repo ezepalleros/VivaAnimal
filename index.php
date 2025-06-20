@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once 'controllers/usuario_controller.php';
 require_once 'controllers/empleado_controller.php';
@@ -49,6 +51,7 @@ switch ($modulo) {
         (new ConsultaController())->index();
         break;
 
+    // Empleado
     case 'emplepage':
         (new EmpleadoController())->verPanel();
         break;
@@ -61,32 +64,37 @@ switch ($modulo) {
         (new EmpleadoController())->editarEspecialidad();
         break;
 
+    case 'aceptar_consulta':
+        (new EmpleadoController())->aceptarConsulta();
+        break;
+
     case 'adminpage':
         include 'views/modules/admin/adminpage.php';
         break;
 
     case 'admin_usuarios':
-        include 'views/modules/admin/ver_usuarios.php';
+        include 'views/modules/admin/admin_usuarios.php';
         break;
 
-    case 'admin_empleados':
-        include 'views/modules/admin/ver_empleados.php';
+    case 'admin_consultas':
+        (new ConsultaController())->indexAdmin();
         break;
 
-    case 'admin_animales':
-        include 'views/modules/admin/ver_animales.php';
-        break;
-
-    case 'admin_consultas_admin':
-        include 'views/modules/admin/ver_consultas.php';
-        break;
-
+    // Admin - CRUD controladores
     case 'usuarios':
         (new UsuarioController())->index();
         break;
 
     case 'guardar_usuario':
         (new UsuarioController())->guardar();
+        break;
+
+    case 'editar_usuario':
+        (new UsuarioController())->editar();
+        break;
+  
+    case 'eliminar_usuario':
+        (new UsuarioController())->eliminar();
         break;
 
     case 'empleados':
@@ -109,12 +117,27 @@ switch ($modulo) {
         (new ConsultaController())->guardar();
         break;
 
-    case 'aceptar_consulta':
-        (new EmpleadoController())->aceptarConsulta();
+    case 'admin_animales':
+        (new AnimalController())->indexAdmin();
+        break;
+
+    case 'editar_animal_admin':
+        (new AnimalController())->editarAdmin();
+        break;
+
+    case 'eliminar_animal_admin':
+        (new AnimalController())->eliminarAdmin();
+        break;
+    
+    case 'editar_consulta_admin':
+        (new ConsultaController())->editarAdmin();
+        break;
+
+    case 'eliminar_consulta_admin':
+        (new ConsultaController())->eliminarAdmin();
         break;
 
     default:
         echo "<h2>Módulo no encontrado: <code>$modulo</code></h2>";
         break;
 }
-

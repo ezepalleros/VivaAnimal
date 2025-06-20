@@ -10,10 +10,20 @@ class ConsultaModel {
 
     public function getAll() {
         $stmt = $this->conn->query("
-            SELECT consulta.*, animal.nombre AS animal_nombre, empleado.nombre AS empleado_nombre 
-            FROM consulta
-            JOIN animal ON consulta.id_animal = animal.id_ani
-            JOIN empleado ON consulta.id_empleado = empleado.id_emp
+            SELECT 
+                c.id_con,
+                c.fecha,
+                c.descripcion,
+                c.estado,
+                a.nombre AS nombre_animal,
+                u_dueño.nombre AS nombre_dueño,
+                u_vet.nombre AS nombre_empleado
+            FROM consulta c
+            JOIN animal a ON c.id_animal = a.id_ani
+            JOIN usuario u_dueño ON a.id_usuario = u_dueño.id_usu
+            JOIN empleado e ON c.id_empleado = e.id_emp
+            JOIN usuario u_vet ON e.id_usuario = u_vet.id_usu
+            ORDER BY c.fecha DESC
         ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -102,5 +112,33 @@ class ConsultaModel {
         $stmt->execute([$id_usuario]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['id_emp'] ?? null;
+    }
+    
+    public function getAllAnimalesConDueño() {
+        $stmt = $this->conn->query("
+            SELECT a.id_ani, a.nombre, u.nombre AS nombre_dueño
+            FROM animal a
+            JOIN usuario u ON a.id_usuario = u.id_usu
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getById($id_con) {
+        $stmt = $this->conn->prepare("SELECT * FROM consulta WHERE id_con = ?");
+        $stmt->execute([$id_con]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function update($id_con, $fecha, $descripcion, $id_animal, $id_empleado, $estado) {
+        $stmt = $this->conn->prepare("
+            UPDATE consulta SET fecha=?, descripcion=?, id_animal=?, id_empleado=?, estado=?
+            WHERE id_con=?
+        ");
+        return $stmt->execute([$fecha, $descripcion, $id_animal, $id_empleado, $estado, $id_con]);
+    }
+    
+    public function eliminar($id_con) {
+        $stmt = $this->conn->prepare("DELETE FROM consulta WHERE id_con = ?");
+        return $stmt->execute([$id_con]);
     }
 }

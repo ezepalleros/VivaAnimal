@@ -58,4 +58,36 @@ class UsuarioController {
         session_destroy();
         header("Location: index.php?modulo=login");
     }
+
+    public function editar() {
+    if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
+        header("Location: index.php?modulo=login");
+        exit;
+    }
+
+    $model = new UsuarioModel();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $model->update(
+            $_POST['id_usu'],
+            $_POST['nombre'],
+            $_POST['email'],
+            $_POST['telefono'],
+            $_POST['direccion'],
+            $_POST['rol']
+        );
+        header("Location: index.php?modulo=admin_usuarios");
+    } else {
+        $usuario = $model->getById($_GET['id']);
+        include 'views/modules/admin/editar_usuario.php';
+    }
+}
+    
+    public function eliminar() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_usu'])) {
+            $model = new UsuarioModel();
+            $model->eliminar($_POST['id_usu']);
+            header("Location: index.php?modulo=admin_usuarios");
+        }
+    }
 }

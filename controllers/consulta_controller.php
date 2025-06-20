@@ -77,5 +77,80 @@ class ConsultaController {
         include 'views/modules/empleado/emp_consultas.php';
     }
     
+    public function indexAdmin() {
+        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
+            header("Location: index.php?modulo=login");
+            exit;
+        }
+        $model = new ConsultaModel();
+        $mensaje = '';
+        $error = '';
+
+        // Para selects del formulario
+        $animales = $model->getAllAnimalesConDueño();
+        $empleados = $model->getEmpleados();
+
+        // Agregar consulta
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_consulta'])) {
+            $fecha = $_POST['fecha'];
+            $descripcion = trim($_POST['descripcion']);
+            $id_animal = $_POST['id_animal'];
+            $id_empleado = $_POST['id_empleado'];
+
+            // Validaciones
+            if ($fecha <= date('Y-m-d')) {
+                $error = "La fecha debe ser posterior a hoy.";
+            } elseif ($descripcion === '') {
+                $error = "La descripción no puede estar vacía.";
+            } else {
+                $ok = $model->save($fecha, $descripcion, $id_animal, $id_empleado, false);
+                if ($ok) {
+                    $mensaje = "Consulta agregada correctamente.";
+                } else {
+                    $error = "Error al agregar la consulta.";
+                }
+            }
+        }
+
+        $consultas = $model->getAll();
+        include 'views/modules/admin/admin_consultas.php';
+    }
+
+    public function editarAdmin() {
+        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
+            header("Location: index.php?modulo=login");
+            exit;
+        }
+        $model = new ConsultaModel();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validaciones aquí...
+            $model->update(
+                $_POST['id_con'],
+                $_POST['fecha'],
+                $_POST['descripcion'],
+                $_POST['id_animal'],
+                $_POST['id_empleado'],
+                $_POST['estado']
+            );
+            header("Location: index.php?modulo=admin_consultas");
+        } else {
+            $consulta = $model->getById($_GET['id']);
+            $animales = $model->getAllAnimalesConDueño();
+            $empleados = $model->getEmpleados();
+            include 'views/modules/admin/editar_consulta.php';
+        }
+    }
+
+    public function eliminarAdmin() {
+        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
+            header("Location: index.php?modulo=login");
+            exit;
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_con'])) {
+            $model = new ConsultaModel();
+            $model->eliminar($_POST['id_con']);
+        }
+        header("Location: index.php?modulo=admin_consultas");
+    }
 }
 
