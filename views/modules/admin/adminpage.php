@@ -8,13 +8,21 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
     exit;
 }
 ?>
-
-<h1>Bienvenido/a, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?> (Administrador)</h1>
-<p>Este es tu panel de administración. Desde aquí podés gestionar los datos del sistema.</p>
-
-<h3>Gestión del sistema</h3>
-<ul>
-    <li><a href="index.php?modulo=admin_usuarios">Ver usuarios</a></li>
-    <li><a href="index.php?modulo=admin_animales">Ver animales</a></li>
-    <li><a href="index.php?modulo=admin_consultas">Ver consultas</a></li>
-</ul>
+<div class="form-contenedor mt-5">
+    <h2>¡Bienvenido/a, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>! 🛡️</h2>
+    <p class="p-text text-center">
+        Este es tu panel de administración.<br>
+        Desde aquí podés gestionar los datos del sistema.
+    </p>
+    <div class="center-btn">
+        <a href="index.php?modulo=admin_usuarios" class="btn-animado">
+            👤 Ver usuarios
+        </a>
+        <a href="index.php?modulo=admin_animales" class="btn-animado">
+            🐾 Ver animales
+        </a>
+        <a href="index.php?modulo=admin_consultas" class="btn-animado">
+            📋 Ver consultas
+        </a>
+    </div>
+</div>

@@ -8,10 +8,18 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
     exit;
 }
 ?>
-<h1>Bienvenido, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>!</h1>
-<p>Este es tu panel como cliente.</p>
-
-<ul>
-    <li><a href="index.php?modulo=tus_animales">Ver tus animales</a></li>
-    <li><a href="index.php?modulo=hacer_consulta">Solicitar nueva consulta</a></li>
-</ul>
+<div class="form-contenedor mt-5">
+    <h2>¡Bienvenido, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>! 🐾</h2>
+    <p class="p-text text-center">
+        Este es tu panel como cliente.<br>
+        ¿Qué querés hacer hoy?
+    </p>
+    <div class="center-btn">
+        <a href="index.php?modulo=tus_animales" class="btn-animado">
+            🐶 Ver tus animales
+        </a>
+        <a href="index.php?modulo=hacer_consulta" class="btn-animado">
+            🩺 Solicitar nueva consulta
+        </a>
+    </div>
+</div>

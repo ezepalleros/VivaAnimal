@@ -27,7 +27,11 @@ if (isset($_SESSION['usuario']['rol'])) {
 
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Tu CSS personalizado -->
+<link rel="stylesheet" href="<?php echo $ruta; ?>css/style.css">
 
+<body>
+<div id="emoji-bg"></div>
 <header style="background-color: #ffe494;" class="py-4 mb-4 shadow">
     <div class="container">
         <div class="row align-items-center">
@@ -51,6 +55,4 @@ if (isset($_SESSION['usuario']['rol'])) {
         </div>
     </div>
 </header>
-
-<!-- Bootstrap JS Bundle (para dropdowns) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<main>
