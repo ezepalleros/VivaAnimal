@@ -14,5 +14,4 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
 <ul>
     <li><a href="index.php?modulo=tus_animales">Ver tus animales</a></li>
     <li><a href="index.php?modulo=hacer_consulta">Solicitar nueva consulta</a></li>
-    <li><a href="index.php?modulo=logout">Cerrar sesión</a></li>
 </ul>

@@ -17,26 +17,29 @@ class UsuarioController {
     }
 
     public function login() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $model = new UsuarioModel();
             $usuario = $model->login($_POST['email'], $_POST['telefono']);
 
             if ($usuario) {
                 $_SESSION['usuario'] = $usuario;
-
                 switch ($usuario['rol']) {
                     case 'cliente':
                         header("Location: index.php?modulo=homepage");
-                        break;
+                        exit;
                     case 'empleado':
                         header("Location: index.php?modulo=emplepage");
-                        break;
+                        exit;
                     case 'admin':
                         header("Location: index.php?modulo=adminpage");
-                        break;
+                        exit;
                 }
             } else {
                 echo "<script>alert('Credenciales incorrectas'); window.location.href='index.php?modulo=login';</script>";
+                exit;
             }
         } else {
             include 'views/modules/auth/login.php';
@@ -60,28 +63,28 @@ class UsuarioController {
     }
 
     public function editar() {
-    if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
-        header("Location: index.php?modulo=login");
-        exit;
-    }
+        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
+            header("Location: index.php?modulo=login");
+            exit;
+        }
 
-    $model = new UsuarioModel();
+        $model = new UsuarioModel();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $model->update(
-            $_POST['id_usu'],
-            $_POST['nombre'],
-            $_POST['email'],
-            $_POST['telefono'],
-            $_POST['direccion'],
-            $_POST['rol']
-        );
-        header("Location: index.php?modulo=admin_usuarios");
-    } else {
-        $usuario = $model->getById($_GET['id']);
-        include 'views/modules/admin/editar_usuario.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $model->update(
+                $_POST['id_usu'],
+                $_POST['nombre'],
+                $_POST['email'],
+                $_POST['telefono'],
+                $_POST['direccion'],
+                $_POST['rol']
+            );
+            header("Location: index.php?modulo=admin_usuarios");
+        } else {
+            $usuario = $model->getById($_GET['id']);
+            include 'views/modules/admin/editar_usuario.php';
+        }
     }
-}
     
     public function eliminar() {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_usu'])) {

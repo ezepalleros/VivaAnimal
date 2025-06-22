@@ -18,5 +18,3 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
     <li><a href="index.php?modulo=admin_animales">Ver animales</a></li>
     <li><a href="index.php?modulo=admin_consultas">Ver consultas</a></li>
 </ul>
-
-<p><a href="index.php?modulo=logout">Cerrar sesión</a></p>

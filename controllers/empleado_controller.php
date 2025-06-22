@@ -4,13 +4,11 @@ require_once 'models/empleado_model.php';
 class EmpleadoController {
     public function index() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
-            echo "<script>alert('Acceso no autorizado'); window.location.href='index.php?modulo=login';</script>";
+            header("Location: index.php?modulo=login");
             exit;
         }
-
         $model = new EmpleadoModel();
         $empleados = $model->getAll();
-
         include 'views/modules/empleados.php';
     }
 

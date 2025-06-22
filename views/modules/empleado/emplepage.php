@@ -12,5 +12,4 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'empleado') 
 <ul>
     <li><a href="index.php?modulo=emp_consultas">Ver consultas pendientes y atendidas</a></li>
     <li><a href="index.php?modulo=emp_especialidad">Editar especialidad</a></li>
-    <li><a href="index.php?modulo=logout">Cerrar sesión</a></li>
 </ul>

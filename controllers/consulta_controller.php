@@ -7,11 +7,9 @@ class ConsultaController {
             header("Location: index.php?modulo=login");
             exit;
         }
-
         $model = new ConsultaModel();
         $animales = $model->getAnimalesPorUsuario($_SESSION['usuario']['id_usu']);
         $empleados = $model->getEmpleados();
-
         include 'views/modules/cliente/hacer_consulta.php';
     }
 
