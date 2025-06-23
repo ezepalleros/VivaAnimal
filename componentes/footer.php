@@ -2,6 +2,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <link rel="stylesheet" href="css/style.css">
+<?php if (isset($usuarios) && is_array($usuarios)): ?>
+<script>
+window.emailsRegistrados = <?= json_encode(array_map('strtolower', array_column($usuarios, 'email'))) ?>;
+</script>
+<?php endif; ?>
+<?php
+if (isset($GLOBALS['__extra_js_vars'])):
+    foreach ($GLOBALS['__extra_js_vars'] as $var => $val) {
+        echo "<script>window.$var = " . json_encode($val) . ";</script>";
+    }
+endif;
+?>
 <script src="<?php echo $ruta; ?>views/js/main.js"></script>
 </body>
 </main>

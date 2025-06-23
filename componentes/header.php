@@ -47,6 +47,26 @@ if (isset($_SESSION['usuario']['rol'])) {
                             <img src="<?php echo $ruta; ?>img/user_logo.png" alt="Usuario" style="max-width: 48px; cursor: pointer;">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
+                            <li>
+                                <?php
+                                // Determinar la homepage según el rol
+                                $home = "index.php?modulo=login";
+                                if (isset($_SESSION['usuario']['rol'])) {
+                                    switch ($_SESSION['usuario']['rol']) {
+                                        case 'admin':
+                                            $home = "index.php?modulo=adminpage";
+                                            break;
+                                        case 'empleado':
+                                            $home = "index.php?modulo=emplepage";
+                                            break;
+                                        case 'cliente':
+                                            $home = "index.php?modulo=homepage";
+                                            break;
+                                    }
+                                }
+                                ?>
+                                <a class="dropdown-item" href="<?php echo $home; ?>">Ir a mi página principal</a>
+                            </li>
                             <li><a class="dropdown-item" href="index.php?modulo=logout">Cerrar sesión</a></li>
                         </ul>
                     </div>

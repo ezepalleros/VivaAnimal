@@ -8,50 +8,39 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
 }
 ?>
 
-<h2>Editar usuario</h2>
+<div class="form-contenedor">
+    <h2 class="subtitulo-destacado">Editar usuario</h2>
+    <form action="index.php?modulo=editar_usuario" method="POST">
+        <input type="hidden" name="id_usu" value="<?= htmlspecialchars($usuario['id_usu']) ?>">
 
-<form action="index.php?modulo=editar_usuario" method="POST">
-    <input type="hidden" name="id_usu" value="<?= htmlspecialchars($usuario['id_usu']) ?>">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required value="<?= htmlspecialchars($usuario['nombre']) ?>">
 
-    <label>Nombre:<br>
-        <input type="text" name="nombre" required value="<?= htmlspecialchars($usuario['nombre']) ?>">
-    </label>
-    <br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required value="<?= htmlspecialchars($usuario['email']) ?>">
 
-    <label>Email:<br>
-        <input type="email" name="email" required value="<?= htmlspecialchars($usuario['email']) ?>">
-    </label>
-    <br><br>
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" value="<?= htmlspecialchars($usuario['telefono']) ?>">
 
-    <label>Teléfono:<br>
-        <input type="text" name="telefono" value="<?= htmlspecialchars($usuario['telefono']) ?>">
-    </label>
-    <br><br>
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion" value="<?= htmlspecialchars($usuario['direccion']) ?>">
 
-    <label>Dirección:<br>
-        <input type="text" name="direccion" value="<?= htmlspecialchars($usuario['direccion']) ?>">
-    </label>
-    <br><br>
-
-    <label>Rol:<br>
-        <select name="rol" required>
+        <label for="rol">Rol:</label>
+        <select id="rol" name="rol" required>
             <option value="cliente" <?= $usuario['rol'] === 'cliente' ? 'selected' : '' ?>>Cliente</option>
             <option value="empleado" <?= $usuario['rol'] === 'empleado' ? 'selected' : '' ?>>Empleado</option>
             <option value="admin" <?= $usuario['rol'] === 'admin' ? 'selected' : '' ?>>Admin</option>
         </select>
-    </label>
-    <br><br>
 
-    <?php if ($usuario['rol'] === 'empleado'): ?>
-        <label>Especialidad:<br>
-            <input type="text" name="especialidad" value="<?= htmlspecialchars($usuario['especialidad'] ?? '') ?>" disabled>
-        </label>
-        <br><br>
-        <label>Fecha de contratación:<br>
-            <input type="date" name="contratacion" value="<?= htmlspecialchars($usuario['contratacion'] ?? '') ?>" disabled>
-        </label>
-        <br><br>
-    <?php endif; ?>
+        <?php if ($usuario['rol'] === 'empleado'): ?>
+            <label for="especialidad">Especialidad:</label>
+            <input type="text" id="especialidad" name="especialidad" value="<?= htmlspecialchars($usuario['especialidad'] ?? '') ?>">
 
-    <button type="submit">Guardar cambios</button>
-    <a href="index.php?modulo=
+            <label for="contratacion">Fecha de contratación:</label>
+            <input type="date" id="contratacion" name="contratacion" value="<?= htmlspecialchars($usuario['contratacion'] ?? '') ?>">
+        <?php endif; ?>
+
+        <button type="submit" class="btn-animado">Guardar cambios</button>
+        <a href="index.php?modulo=admin_usuarios" class="btn-animado" style="margin-top:10px;text-align:center;">Cancelar</a>
+    </form>
+</div>

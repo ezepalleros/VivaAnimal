@@ -37,9 +37,14 @@ class UsuarioModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function eliminar($id) {
+    public function eliminar($id_usu) {
+        // Eliminar empleado si existe
+        $stmt = $this->conn->prepare("DELETE FROM empleado WHERE id_usuario = ?");
+        $stmt->execute([$id_usu]);
+
+        // Ahora sí eliminar usuario
         $stmt = $this->conn->prepare("DELETE FROM usuario WHERE id_usu = ?");
-        return $stmt->execute([$id]);
+        return $stmt->execute([$id_usu]);
     }
 
     public function getByRol($rol) {

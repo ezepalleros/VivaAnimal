@@ -350,3 +350,25 @@ footer {
     background: #ffd6d6;
     color: #a00 !important;
 }
+
+/* Tablas admin más lindas */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    background: #fffbe6;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+.table th, .table td {
+    border: none !important;
+    text-align: center;
+    vertical-align: middle;
+}
+.table-striped tbody tr:nth-child(odd) {
+    background: #fffde6;
+}
+.table-hover tbody tr:hover {
+    background: #ffe494;
+}

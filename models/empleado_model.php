@@ -13,9 +13,9 @@ class EmpleadoModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function save($nombre, $especialidad, $contratacion, $id_usuario) {
-        $stmt = $this->conn->prepare("INSERT INTO empleado (nombre, especialidad, contratacion, id_usuario) VALUES (?, ?, ?, ?)");
-        return $stmt->execute([$nombre, $especialidad, $contratacion, $id_usuario]);
+    public function save($especialidad, $contratacion, $id_usuario) {
+        $stmt = $this->conn->prepare("INSERT INTO empleado (especialidad, contratacion, id_usuario) VALUES (?, ?, ?)");
+        return $stmt->execute([$especialidad, $contratacion, $id_usuario]);
     }
 
     public function getByUsuarioId($id_usuario) {

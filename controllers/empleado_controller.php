@@ -21,10 +21,9 @@ class EmpleadoController {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $model = new EmpleadoModel();
             $model->save(
-                $_POST['nombre'],
                 $_POST['especialidad'],
                 $_POST['contratacion'],
-                $_POST['id_usuario'] ?? null // Si guardás usuario aparte, o ajusta
+                $_POST['id_usuario'] ?? null
             );
             header("Location: index.php?modulo=empleados");
         }

@@ -11,7 +11,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
 <div class="form-contenedor mt-5">
     <h2>¡Bienvenido, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>! 🐾</h2>
     <p class="p-text text-center">
-        Este es tu panel como cliente.<br>
+        Este es la página principal.<br>
         ¿Qué querés hacer hoy?
     </p>
     <div class="center-btn">

@@ -9,74 +9,78 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
 }
 ?>
 
-<h2>Gestión de Consultas</h2>
+<h2 class="titulo-destacado" style="text-align:center;">Gestión de Consultas</h2>
 
-<?php if (!empty($consultas)): ?>
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; font-size: 12px;">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Animal</th>
-                <th>Dueño</th>
-                <th>Veterinario</th>
-                <th>Descripción</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($consultas as $c): ?>
-                <tr>
-                    <td><?= htmlspecialchars($c['id_con']) ?></td>
-                    <td><?= htmlspecialchars($c['fecha']) ?></td>
-                    <td><?= htmlspecialchars($c['nombre_animal']) ?></td>
-                    <td><?= htmlspecialchars($c['nombre_dueño']) ?></td>
-                    <td><?= htmlspecialchars($c['nombre_empleado']) ?></td>
-                    <td><?= htmlspecialchars($c['descripcion']) ?></td>
-                    <td><?= $c['estado'] ? 'Atendida' : 'Pendiente' ?></td>
-                    <td>
-                        <a href="index.php?modulo=editar_consulta_admin&id=<?= $c['id_con'] ?>">Editar</a>
-                        |
-                        <form action="index.php?modulo=eliminar_consulta_admin" method="POST" style="display:inline;">
-                            <input type="hidden" name="id_con" value="<?= $c['id_con'] ?>">
-                            <button type="submit" onclick="return confirm('¿Eliminar esta consulta?')" style="background:none; border:none; color:blue; cursor:pointer; text-decoration:underline;">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>z
-<?php else: ?>
-    <p>No hay consultas registradas.</p>
-<?php endif; ?>
+<div class="form-contenedor" style="max-width:1200px;margin-bottom:32px;">
+    <h3 class="subtitulo-destacado" style="margin-bottom:18px;">Lista de consultas</h3>
+    <?php if (!empty($consultas)): ?>
+        <div style="overflow-x:auto;">
+            <table class="table table-striped table-hover" style="width:100%;background:#fffbe6;border-radius:14px;box-shadow:0 2px 8px rgba(230,149,0,0.08);font-size:1.08rem;">
+                <thead style="background:#ffe494;">
+                    <tr>
+                        <th style="padding: 10px;">ID</th>
+                        <th style="padding: 10px;">Fecha</th>
+                        <th style="padding: 10px;">Animal</th>
+                        <th style="padding: 10px;">Dueño</th>
+                        <th style="padding: 10px;">Veterinario</th>
+                        <th style="padding: 10px;">Descripción</th>
+                        <th style="padding: 10px;">Estado</th>
+                        <th style="padding: 10px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($consultas as $c): ?>
+                        <tr>
+                            <td style="padding:8px;"><?= htmlspecialchars($c['id_con']) ?></td>
+                            <td style="padding:8px;"><?= htmlspecialchars($c['fecha']) ?></td>
+                            <td style="padding:8px;"><?= htmlspecialchars($c['nombre_animal']) ?></td>
+                            <td style="padding:8px;"><?= htmlspecialchars($c['nombre_dueño']) ?></td>
+                            <td style="padding:8px;"><?= htmlspecialchars($c['nombre_empleado']) ?></td>
+                            <td style="padding:8px;"><?= htmlspecialchars($c['descripcion']) ?></td>
+                            <td style="padding:8px;"><?= $c['estado'] ? 'Atendida' : 'Pendiente' ?></td>
+                            <td style="padding:8px;">
+                                <a href="index.php?modulo=editar_consulta_admin&id=<?= $c['id_con'] ?>" class="btn-animado" style="padding:6px 14px;font-size:1rem;min-width:70px;max-width:110px;display:inline-block;">✏️ Editar</a>
+                                <form action="index.php?modulo=eliminar_consulta_admin" method="POST" style="display:inline; margin:0; padding:0;">
+                                    <input type="hidden" name="id_con" value="<?= $c['id_con'] ?>">
+                                    <button type="submit" onclick="return confirm('¿Eliminar esta consulta?')" class="btn-animado" style="padding:6px 14px;font-size:1rem;min-width:70px;max-width:110px;display:inline-block;">🗑️ Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <p style="text-align:center;">No hay consultas registradas.</p>
+    <?php endif; ?>
+</div>
 
-<hr>
-<h3>Agregar nueva consulta</h3>
-<form action="index.php?modulo=admin_consultas" method="POST">
-    <label>Fecha: <input type="date" name="fecha" required></label><br>
-    <label>Descripción: <input type="text" name="descripcion" required></label><br>
-    <label>Animal:
-        <select name="id_animal" required>
+<div class="form-contenedor" style="max-width:600px;margin-bottom:32px;">
+    <h3 class="subtitulo-destacado" style="margin-bottom:18px;">Agregar nueva consulta</h3>
+    <form action="index.php?modulo=admin_consultas" method="POST">
+        <label>Fecha:</label>
+        <input type="date" name="fecha" required class="form-control">
+        <label>Descripción:</label>
+        <input type="text" name="descripcion" required class="form-control">
+        <label>Animal:</label>
+        <select name="id_animal" required class="form-control">
             <?php foreach ($animales as $ani): ?>
                 <option value="<?= $ani['id_ani'] ?>"><?= htmlspecialchars($ani['nombre']) ?> (Dueño: <?= htmlspecialchars($ani['nombre_dueño']) ?>)</option>
             <?php endforeach; ?>
         </select>
-    </label><br>
-    <label>Veterinario:
-        <select name="id_empleado" required>
+        <label>Veterinario:</label>
+        <select name="id_empleado" required class="form-control">
             <?php foreach ($empleados as $emp): ?>
                 <option value="<?= $emp['id_emp'] ?>"><?= htmlspecialchars($emp['nombre']) ?> (<?= htmlspecialchars($emp['especialidad']) ?>)</option>
             <?php endforeach; ?>
         </select>
-    </label><br>
-    <button type="submit" name="agregar_consulta" value="1">Agregar</button>
-</form>
+        <button type="submit" name="agregar_consulta" value="1" class="btn-animado" style="margin-top:10px;">Agregar</button>
+    </form>
+</div>
+
 <?php if (!empty($mensaje)): ?>
-    <div style="color: green; font-weight: bold;"><?= htmlspecialchars($mensaje) ?></div>
+    <div style="color: green; font-weight: bold;text-align:center;"><?= htmlspecialchars($mensaje) ?></div>
 <?php endif; ?>
 <?php if (!empty($error)): ?>
-    <div style="color: red; font-weight: bold;"><?= htmlspecialchars($error) ?></div>
+    <div style="color: red; font-weight: bold;text-align:center;"><?= htmlspecialchars($error) ?></div>
 <?php endif; ?>
-
-<p><a href="index.php?modulo=adminpage">← Volver al panel de administración</a></p>

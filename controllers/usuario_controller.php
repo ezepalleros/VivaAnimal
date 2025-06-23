@@ -48,9 +48,22 @@ class UsuarioController {
 
     public function register() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $nombre = $_POST['nombre'];
+            $email = $_POST['email'];
+            $telefono = $_POST['telefono'];
+            $direccion = $_POST['direccion'];
+
             $model = new UsuarioModel();
-            $model->save($_POST['nombre'], $_POST['email'], $_POST['telefono'], $_POST['direccion'], 'cliente');
-            echo "<script>alert('Registro exitoso. Ahora podés iniciar sesión.'); window.location.href='index.php?modulo=login';</script>";
+
+            // Validar si el email ya existe
+            if ($model->getByEmail($email)) {
+                echo "<script>alert('El email ya está registrado. Por favor, usa otro.'); window.history.back();</script>";
+                exit;
+            }
+
+            $model->save($nombre, $email, $telefono, $direccion, 'cliente');
+            header("Location: index.php?modulo=login");
+            exit;
         } else {
             include 'views/modules/auth/register.php';
         }
@@ -91,6 +104,41 @@ class UsuarioController {
             $model = new UsuarioModel();
             $model->eliminar($_POST['id_usu']);
             header("Location: index.php?modulo=admin_usuarios");
+        }
+    }
+
+    public function crear_usuario() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $nombre = $_POST['nombre'];
+            $email = $_POST['email'];
+            $telefono = $_POST['telefono'];
+            $direccion = $_POST['direccion'];
+            $rol = $_POST['rol'];
+
+            $model = new UsuarioModel();
+
+            // Validar si el email ya existe
+            if ($model->getByEmail($email)) {
+                echo "<script>alert('El email ya está registrado. Por favor, usa otro.'); window.history.back();</script>";
+                exit;
+            }
+
+            $model->save($nombre, $email, $telefono, $direccion, $rol);
+
+            // Obtener el id del usuario recién creado
+            $id_usuario = $model->getByEmail($email)['id_usu'];
+
+            // Si es empleado, insertar en la tabla empleado
+            if ($rol === 'empleado') {
+                require_once 'models/empleado_model.php';
+                $especialidad = $_POST['especialidad'];
+                $contratacion = $_POST['contratacion'];
+                $empModel = new EmpleadoModel();
+                $empModel->save($especialidad, $contratacion, $id_usuario);
+            }
+
+            header("Location: index.php?modulo=admin_usuarios");
+            exit;
         }
     }
 }

@@ -11,8 +11,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
 <div class="form-contenedor mt-5">
     <h2>¡Bienvenido/a, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>! 🛡️</h2>
     <p class="p-text text-center">
-        Este es tu panel de administración.<br>
-        Desde aquí podés gestionar los datos del sistema.
+        Este es el panel de administración.<br>
     </p>
     <div class="center-btn">
         <a href="index.php?modulo=admin_usuarios" class="btn-animado">

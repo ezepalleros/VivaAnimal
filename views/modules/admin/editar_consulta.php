@@ -8,50 +8,47 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
 }
 ?>
 
-<h2>Editar consulta</h2>
+<div class="form-contenedor">
+    <h2 class="subtitulo-destacado">Editar consulta</h2>
 
-<form action="index.php?modulo=editar_consulta_admin" method="POST">
-    <input type="hidden" name="id_con" value="<?= htmlspecialchars($consulta['id_con']) ?>">
+    <?php if (!empty($error)): ?>
+        <div style="color: red; font-weight: bold;text-align:center;"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
 
-    <label>Fecha:<br>
-        <input type="date" name="fecha" required value="<?= htmlspecialchars($consulta['fecha']) ?>">
-    </label>
-    <br><br>
+    <form id="form-editar-consulta" action="index.php?modulo=editar_consulta_admin" method="POST">
+        <input type="hidden" name="id_con" value="<?= htmlspecialchars($consulta['id_con']) ?>">
 
-    <label>Descripción:<br>
-        <input type="text" name="descripcion" required value="<?= htmlspecialchars($consulta['descripcion']) ?>">
-    </label>
-    <br><br>
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" required value="<?= htmlspecialchars($consulta['fecha']) ?>">
 
-    <label>Animal:<br>
-        <select name="id_animal" required>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required value="<?= htmlspecialchars($consulta['descripcion']) ?>">
+
+        <label for="id_animal">Animal:</label>
+        <select id="id_animal" name="id_animal" required>
             <?php foreach ($animales as $ani): ?>
                 <option value="<?= $ani['id_ani'] ?>" <?= $ani['id_ani'] == $consulta['id_animal'] ? 'selected' : '' ?>>
                     <?= htmlspecialchars($ani['nombre']) ?> (Dueño: <?= htmlspecialchars($ani['nombre_dueño']) ?>)
                 </option>
             <?php endforeach; ?>
         </select>
-    </label>
-    <br><br>
 
-    <label>Veterinario:<br>
-        <select name="id_empleado" required>
+        <label for="id_empleado">Veterinario:</label>
+        <select id="id_empleado" name="id_empleado" required>
             <?php foreach ($empleados as $emp): ?>
                 <option value="<?= $emp['id_emp'] ?>" <?= $emp['id_emp'] == $consulta['id_empleado'] ? 'selected' : '' ?>>
                     <?= htmlspecialchars($emp['nombre']) ?> (<?= htmlspecialchars($emp['especialidad']) ?>)
                 </option>
             <?php endforeach; ?>
         </select>
-    </label>
-    <br><br>
 
-    <label>Estado:<br>
-        <select name="estado" required>
+        <label for="estado">Estado:</label>
+        <select id="estado" name="estado" required>
             <option value="0" <?= $consulta['estado'] ? '' : 'selected' ?>>Pendiente</option>
             <option value="1" <?= $consulta['estado'] ? 'selected' : '' ?>>Atendida</option>
         </select>
-    </label>
-    <br><br>
 
-    <button type="submit">Guardar cambios</button>
-    <a href="index.php?modulo
+        <button type="submit" class="btn-animado">Guardar cambios</button>
+        <a href="index.php?modulo=admin_consultas" class="btn-animado" style="margin-top:10px;text-align:center;">Cancelar</a>
+    </form>
+</div>

@@ -36,7 +36,7 @@ if (isset($animales) && is_array($animales) && count($animales)) {
         echo '<div class="animal-actions" style="display:flex;gap:10px;justify-content:center;">';
         echo '<a href="index.php?modulo=tus_consultas&id=' . htmlspecialchars($ani['id_ani']) . '" class="btn-animado" style="min-width:90px;">🔍 Consultas</a>';
         echo '<a href="index.php?modulo=editar_animal&id=' . htmlspecialchars($ani['id_ani']) . '" class="btn-animado" style="min-width:90px;">✏️ Editar</a>';
-        echo '<a href="index.php?modulo=eliminar_animal&id=' . htmlspecialchars($ani['id_ani']) . '" class="btn-animado btn-eliminar" style="min-width:90px;" onclick="return confirm(\'¿Eliminar este animal?\')">🗑️ Eliminar</a>';
+        echo '<a href="index.php?modulo=eliminar_animal&id=' . htmlspecialchars($ani['id_ani']) . '" class="btn-animado" style="min-width:90px;" onclick="return confirm(\'¿Eliminar este animal?\')">🗑️ Eliminar</a>';
         echo '</div>';
         echo '</div>';
     }

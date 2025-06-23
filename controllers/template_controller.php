@@ -114,6 +114,9 @@ class TemplateController {
             case 'eliminar_consulta_admin':
                 (new ConsultaController())->eliminarAdmin();
                 return null;
+            case 'crear_usuario':
+                (new UsuarioController())->crear_usuario();
+                return null;
 
             default:
                 return null;
