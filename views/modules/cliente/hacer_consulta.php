@@ -1,4 +1,4 @@
-<div class="container" style="max-width: 500px;">
+<div class="form-contenedor">
     <h2 class="mb-4 text-center">Solicitar nueva consulta</h2>
     <form method="POST" action="index.php?modulo=guardar_consulta">
         <label for="id_animal">Animal:</label>
@@ -25,9 +25,6 @@
             <?php endforeach; ?>
         </select>
 
-        <button type="submit" class="btn btn-warning w-100">Enviar solicitud</button>
+        <button type="submit" class="btn-animado">Enviar solicitud</button>
     </form>
-    <p class="mt-3 text-center">
-        <a href="index.php?modulo=homepage">← Volver al inicio</a>
-    </p>
 </div>

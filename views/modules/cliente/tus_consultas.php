@@ -4,23 +4,19 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
     exit;
 }
 
-echo '<h2>Consultas de ' . htmlspecialchars($animal['nombre'] ?? '') . '</h2>';
+echo '<h2 class="titulo-destacado" style="text-align:center;">Consultas de ' . htmlspecialchars($animal['nombre'] ?? '') . '</h2>';
 
 if (isset($consultas) && count($consultas) > 0) {
-    echo '<ul>';
     foreach ($consultas as $consulta) {
-        echo '<li>';
-        echo '<strong>Fecha:</strong> ' . htmlspecialchars($consulta['fecha']) . '<br>';
-        echo '<strong>Veterinario:</strong> ' . htmlspecialchars($consulta['nombre_empleado']) . '<br>';
-        echo '<strong>Descripción:</strong> ' . htmlspecialchars($consulta['descripcion']) . '<br>';
-        echo '<strong>Estado:</strong> ' . ($consulta['estado'] ? 'Aceptada' : 'Pendiente');
-        echo '</li>';
-        echo '<hr>';
+        echo '<div class="form-contenedor" style="margin-bottom:28px;max-width:480px;">';
+        echo '<div class="animal-info" style="font-size:1.15rem;margin-bottom:10px;">';
+        echo '<div><b>Fecha:</b> ' . htmlspecialchars($consulta['fecha']) . '</div>';
+        echo '<div><b>Veterinario:</b> ' . htmlspecialchars($consulta['nombre_empleado']) . '</div>';
+        echo '<div><b>Descripción:</b> ' . htmlspecialchars($consulta['descripcion']) . '</div>';
+        echo '<div><b>Estado:</b> <span style="color:' . ($consulta['estado'] ? '#2e7d32' : '#e69500') . ';font-weight:bold;">' . ($consulta['estado'] ? 'Aceptada' : 'Pendiente') . '</span></div>';
+        echo '</div>';
+        echo '</div>';
     }
-    echo '</ul>';
 } else {
-    echo '<p>No tiene ninguna consulta.</p>';
+    echo '<div class="form-contenedor" style="max-width:480px;"><p>No tiene ninguna consulta.</p></div>';
 }
-
-echo '<p><a href="index.php?modulo=tus_animales">← Volver a mis animales</a></p>';
-?>

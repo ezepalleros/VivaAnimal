@@ -123,9 +123,12 @@ footer {
 }
 
 .subtitulo-destacado {
-    font-size: 1.5rem;
-    color: #e69500;
-    margin-left: 20px;
+    font-size: 2rem;
+    color: #ff9800;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 0 #fff3c1;
 }
 
 /* Dropdown user */
@@ -140,12 +143,12 @@ footer {
 
 /* Formularios grandes, centrados y modernos */
 .form-contenedor {
-    max-width: 430px;
+    max-width: 440px;
     margin: 40px auto 0 auto;
     background: #fffbe6;
-    border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    padding: 36px 32px 32px 32px;
+    border-radius: 28px;
+    box-shadow: 0 8px 32px rgba(230, 149, 0, 0.13);
+    padding: 40px 36px 36px 36px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -197,7 +200,7 @@ footer {
     padding: 12px 0;
     margin-top: 10px;
     transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px rgba(230, 149, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(230,149,0,0.08);
 }
 
 .form-contenedor button:hover {
@@ -245,4 +248,105 @@ footer {
 .btn-animado.clicked {
     transform: scale(0.93);
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Lista de animales */
+.animales-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    margin-top: 24px;
+    margin-bottom: 32px;
+    padding: 0;
+    list-style: none;
+}
+
+/* Tarjeta individual */
+.animal-card {
+    background: #fffbe6;
+    border-radius: 22px;
+    box-shadow: 0 4px 18px rgba(230,149,0,0.10);
+    padding: 28px 24px 18px 24px;
+    min-width: 260px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.2s ease;
+    border: 2px solid #ffe494;
+}
+
+.animal-card:hover {
+    transform: scale(1.03);
+    border-color: #ffcc33;
+    box-shadow: 0 8px 32px rgba(230,149,0,0.18);
+}
+
+/* Nombre */
+.animal-card strong {
+    font-size: 1.7rem;
+    color: #ff9800;
+    margin-bottom: 8px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0 #ffe494, 0 2px 8px #fffbe6;
+    font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.animal-card strong::before {
+    content: "🐵";
+    font-size: 1.5em;
+    margin-right: 4px;
+    filter: drop-shadow(0 1px 0 #ffe494);
+}
+
+/* Info */
+.animal-card .animal-info {
+    font-size: 1.3rem;
+    color: #444;
+    font-weight: 600;
+    background: #fff8d9;
+    padding: 12px 16px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+    text-align: center;
+    line-height: 1.7;
+    text-shadow: 0 1px 0 #fff;
+}
+
+/* Botones */
+.animal-card .animal-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.animal-card .btn-animado {
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 14px;
+    min-width: 70px;
+    max-width: 110px;
+    width: auto;
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.animal-card .btn-animado:last-child {
+    background: #ffe6e6;
+    color: #c00 !important;
+}
+
+.animal-card .btn-animado:last-child:hover {
+    background: #ffd6d6;
+    color: #a00 !important;
 }

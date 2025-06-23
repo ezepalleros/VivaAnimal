@@ -30,3 +30,38 @@
         </div>
     </div>
 </footer>
+<?php
+$noBackBtn = [
+    'login', 'register', 'homepage', 'adminpage', 'emplepage'
+];
+$moduloActual = $_GET['modulo'] ?? 'login';
+$mostrarBackBtn = !in_array($moduloActual, $noBackBtn);
+?>
+<?php if ($mostrarBackBtn): ?>
+    <button id="btn-volver-atras" style="
+        position: fixed;
+        right: 32px;
+        bottom: 92px;
+        z-index: 1001;
+        background: #ffe494;
+        color: #222;
+        border: none;
+        border-radius: 50%;
+        width: 54px;
+        height: 54px;
+        box-shadow: 0 2px 12px rgba(230,149,0,0.13);
+        font-size: 2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    " title="Volver">
+        ←
+    </button>
+    <script>
+        document.getElementById('btn-volver-atras').onclick = function() {
+            window.history.back();
+        };
+    </script>
+<?php endif; ?>
