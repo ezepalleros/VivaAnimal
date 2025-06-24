@@ -2,17 +2,17 @@
 require_once 'models/empleado_model.php';
 
 class EmpleadoController {
-    public function index() {
+    public function indexEmpleado() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             header("Location: index.php?modulo=login");
             exit;
         }
         $model = new EmpleadoModel();
-        $empleados = $model->getAll();
+        $empleados = $model->getAllEmpleado();
         include 'views/modules/empleados.php';
     }
 
-    public function guardar() {
+    public function saveEmpleado() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             echo "<script>alert('Acceso no autorizado'); window.location.href='index.php?modulo=login';</script>";
             return;
@@ -20,7 +20,7 @@ class EmpleadoController {
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $model = new EmpleadoModel();
-            $model->save(
+            $model->saveEmpleado(
                 $_POST['especialidad'],
                 $_POST['contratacion'],
                 $_POST['id_usuario'] ?? null
@@ -29,7 +29,7 @@ class EmpleadoController {
         }
     }
 
-    public function verPanel() {
+    public function verPanelEmpleado() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'empleado') {
             header("Location: index.php?modulo=login");
             exit;
@@ -48,16 +48,16 @@ class EmpleadoController {
         $id_emp = $empleado['id_emp'];
     
         $modelCon = new ConsultaModel();
-        $pendientes = $modelCon->getConsultasPorEmpleado($id_emp, 0);
-        $atendidas = $modelCon->getConsultasPorEmpleado($id_emp, 1);
+        $pendientes = $modelCon->getConsultasByEmpleado($id_emp, 0);
+        $atendidas = $modelCon->getConsultasByEmpleado($id_emp, 1);
     
         include 'views/modules/empleado/emplepage.php';
     }
     
-    public function aceptarConsulta() {
+    public function checkConsultaEmpleado() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_con'])) {
             $model = new ConsultaModel();
-            $model->marcarComoAtendida($_POST['id_con']);
+            $model->checkConsulta($_POST['id_con']);
             header("Location: index.php?modulo=emplepage");
         }
     }
@@ -88,7 +88,7 @@ class EmpleadoController {
         include 'views/modules/empleado/emp_consultas.php';
     }
 
-    public function editarEspecialidad() {
+    public function editEspecialidad() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'empleado') {
             header("Location: index.php?modulo=login");
             exit;
@@ -100,7 +100,7 @@ class EmpleadoController {
     
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nueva = $_POST['especialidad'];
-            $empModel->actualizarEspecialidad($empleado['id_emp'], $nueva);
+            $empModel->updateEspecialidad($empleado['id_emp'], $nueva);
             echo "<script>alert('Especialidad actualizada'); window.location.href='index.php?modulo=emp_especialidad';</script>";
         } else {
             include 'views/modules/empleado/emp_especialidad.php';

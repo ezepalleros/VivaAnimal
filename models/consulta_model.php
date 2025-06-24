@@ -8,7 +8,7 @@ class ConsultaModel {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    public function getAll() {
+    public function getAllConsulta() {
         $stmt = $this->conn->query("
             SELECT 
                 c.id_con,
@@ -28,7 +28,7 @@ class ConsultaModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAnimalesPorUsuario($id_usuario) {
+    public function getAnimalesByUsuario($id_usuario) {
         $stmt = $this->conn->prepare("SELECT id_ani, nombre, especie FROM animal WHERE id_usuario = ?");
         $stmt->execute([$id_usuario]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,7 +43,7 @@ class ConsultaModel {
     }
 
 
-    public function save($fecha, $descripcion, $id_animal, $id_empleado, $estado = false) {
+    public function saveEmpleado($fecha, $descripcion, $id_animal, $id_empleado, $estado = false) {
         $stmt = $this->conn->prepare(
             "INSERT INTO consulta (fecha, descripcion, id_animal, id_empleado, estado) 
              VALUES (?, ?, ?, ?, ?)"
@@ -51,7 +51,7 @@ class ConsultaModel {
         return $stmt->execute([$fecha, $descripcion, $id_animal, $id_empleado, $estado]);
     }
 
-    public function getByAnimal($id_animal) {
+    public function getConsultaByAnimal($id_animal) {
     $sql = "SELECT c.*, u.nombre AS nombre_empleado
             FROM consulta c
             JOIN empleado e ON c.id_empleado = e.id_emp
@@ -80,7 +80,7 @@ class ConsultaModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getConsultasPorEmpleado($id_emp, $estado) {
+    public function getConsultasByEmpleado($id_emp, $estado) {
         $stmt = $this->conn->prepare("
             SELECT c.id_con, c.fecha, c.descripcion, c.estado,
                    a.nombre AS nombre_animal, a.especie
@@ -93,7 +93,7 @@ class ConsultaModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function marcarComoAtendida($id_con) {
+    public function checkConsulta($id_con) {
         $stmt = $this->conn->prepare("UPDATE consulta SET estado = TRUE WHERE id_con = ?");
         return $stmt->execute([$id_con]);
     }
@@ -114,7 +114,7 @@ class ConsultaModel {
         return $result['id_emp'] ?? null;
     }
     
-    public function getAllAnimalesConDueño() {
+    public function getAllAnimales() {
         $stmt = $this->conn->query("
             SELECT a.id_ani, a.nombre, u.nombre AS nombre_dueño
             FROM animal a
@@ -123,13 +123,13 @@ class ConsultaModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id_con) {
+    public function getConsultaById($id_con) {
         $stmt = $this->conn->prepare("SELECT * FROM consulta WHERE id_con = ?");
         $stmt->execute([$id_con]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update($id_con, $fecha, $descripcion, $id_animal, $id_empleado, $estado) {
+    public function updateConsulta($id_con, $fecha, $descripcion, $id_animal, $id_empleado, $estado) {
         $stmt = $this->conn->prepare("
             UPDATE consulta SET fecha=?, descripcion=?, id_animal=?, id_empleado=?, estado=?
             WHERE id_con=?
@@ -137,7 +137,7 @@ class ConsultaModel {
         return $stmt->execute([$fecha, $descripcion, $id_animal, $id_empleado, $estado, $id_con]);
     }
     
-    public function eliminar($id_con) {
+    public function deleteConsulta($id_con) {
         $stmt = $this->conn->prepare("DELETE FROM consulta WHERE id_con = ?");
         return $stmt->execute([$id_con]);
     }

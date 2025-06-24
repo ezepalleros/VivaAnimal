@@ -3,19 +3,19 @@ require_once 'models/animal_model.php';
 require_once 'models/usuario_model.php';
 
 class AnimalController {
-    // Para clientes: ver sus animales
-    public function index() {
+    // Ver tus animales
+    public function indexAnimal() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
             header("Location: index.php?modulo=login");
             exit;
         }
         $id_usuario = $_SESSION['usuario']['id_usu'];
         $model = new AnimalModel();
-        $animales = $model->getByUsuario($id_usuario);
+        $animales = $model->getAnimalByUsuario($id_usuario);
         include 'views/modules/cliente/tus_animales.php';
     }
 
-    // Para admin: ver y gestionar todos los animales
+    // Ver y gestionar todos los animales (admin)
     public function indexAdmin() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             header("Location: index.php?modulo=login");
@@ -26,7 +26,7 @@ class AnimalController {
         $error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar']) && isset($_POST['id_ani'])) {
-            $model->deleteAdmin($_POST['id_ani']);
+            $model->deleteAnimalAdmin($_POST['id_ani']);
             $mensaje = "Animal eliminado correctamente.";
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nombre'])) {
             $nombre = trim($_POST['nombre']);
@@ -40,28 +40,27 @@ class AnimalController {
                 $error = "La edad debe ser mayor a 0 y menor o igual a 30.";
             } else {
                 $usuarioModel = new UsuarioModel();
-                $usuario = $usuarioModel->getById($id_usuario);
+                $usuario = $usuarioModel->getUsuarioById($id_usuario);
                 if (!$usuario) {
                     $error = "El ID de usuario ingresado no existe.";
                 } else {
-                    $model->save($nombre, $edad, $especie, $raza, $id_usuario);
+                    $model->saveAnimal($nombre, $edad, $especie, $raza, $id_usuario);
                     $mensaje = "Animal agregado correctamente.";
                 }
             }
         }
-        $animales = $model->getAll();
+        $animales = $model->getAllAnimal();
         include 'views/modules/admin/admin_animales.php';
     }
 
-    // Guardar desde admin
-    public function guardarAdmin() {
+    public function saveAdmin() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             header("Location: index.php?modulo=login");
             exit;
         }
 
         $model = new AnimalModel();
-        $model->save(
+        $model->saveAnimal(
             $_POST['nombre'],
             $_POST['edad'],
             $_POST['especie'],
@@ -72,8 +71,7 @@ class AnimalController {
         header("Location: index.php?modulo=admin_animales");
     }
 
-    // Editar desde admin
-    public function editarAdmin() {
+    public function editAdmin() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             header("Location: index.php?modulo=login");
             exit;
@@ -88,13 +86,13 @@ class AnimalController {
 
             // Validaciones
             if ($nombre === '') {
-                $animal = $model->getByIdAdmin($_POST['id_ani']);
+                $animal = $model->getAnimalByIdAdmin($_POST['id_ani']);
                 $error = "El nombre no puede estar vacío.";
                 include 'views/modules/admin/editar_animal.php';
                 return;
             }
             if ($edad <= 0 || $edad > 30) {
-                $animal = $model->getByIdAdmin($_POST['id_ani']);
+                $animal = $model->getAnimalByIdAdmin($_POST['id_ani']);
                 $error = "La edad debe ser mayor a 0 y menor o igual a 30.";
                 include 'views/modules/admin/editar_animal.php';
                 return;
@@ -102,16 +100,16 @@ class AnimalController {
 
             // Validar que el id_usuario existe
             $usuarioModel = new UsuarioModel();
-            $usuario = $usuarioModel->getById($id_usuario);
+            $usuario = $usuarioModel->getUsuarioById($id_usuario);
 
             if (!$usuario) {
-                $animal = $model->getByIdAdmin($_POST['id_ani']);
+                $animal = $model->getAnimalByIdAdmin($_POST['id_ani']);
                 $error = "El ID de usuario ingresado no existe.";
                 include 'views/modules/admin/editar_animal.php';
                 return;
             }
 
-            $model->updateAdmin(
+            $model->updateAnimalAdmin(
                 $_POST['id_ani'],
                 $nombre,
                 $edad,
@@ -121,33 +119,33 @@ class AnimalController {
             );
             header("Location: index.php?modulo=admin_animales");
         } else {
-            $animal = $model->getByIdAdmin($_GET['id']);
+            $animal = $model->getAnimalByIdAdmin($_GET['id']);
             include 'views/modules/admin/editar_animal.php';
         }
     }
 
     // Eliminar desde admin
-    public function eliminarAdmin() {
+    public function deleteAnimalAdmin() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             header("Location: index.php?modulo=login");
             exit;
         }
 
         $model = new AnimalModel();
-        $model->deleteAdmin($_POST['id_ani']);
+        $model->deleteAnimalAdmin($_POST['id_ani']);
 
         header("Location: index.php?modulo=admin_animales");
     }
 
 
-    public function guardar() {
+    public function saveAnimal() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
             header("Location: index.php?modulo=login");
             exit;
         }
 
         $model = new AnimalModel();
-        $model->save(
+        $model->saveAnimal(
             $_POST['nombre'],
             $_POST['edad'],
             $_POST['especie'],
@@ -158,19 +156,19 @@ class AnimalController {
         header("Location: index.php?modulo=tus_animales");
     }
 
-    public function eliminar() {
+    public function deleteAnimal() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
             header("Location: index.php?modulo=login");
             exit;
         }
 
         $model = new AnimalModel();
-        $model->delete($_GET['id'], $_SESSION['usuario']['id_usu']);
+        $model->deleteAnimal($_GET['id'], $_SESSION['usuario']['id_usu']);
 
         header("Location: index.php?modulo=tus_animales");
     }
 
-    public function editar() {
+    public function editAnimal() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
             header("Location: index.php?modulo=login");
             exit;
@@ -179,7 +177,7 @@ class AnimalController {
         $model = new AnimalModel();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $model->update(
+            $model->updateAnimal(
                 $_POST['id_ani'],
                 $_POST['nombre'],
                 $_POST['edad'],
@@ -189,8 +187,8 @@ class AnimalController {
             );
             header("Location: index.php?modulo=tus_animales");
         } else {
-            $animal = $model->getById($_GET['id'], $_SESSION['usuario']['id_usu']);
-            $animales = $model->getByUsuario($_SESSION['usuario']['id_usu']);
+            $animal = $model->getAnimalById($_GET['id'], $_SESSION['usuario']['id_usu']);
+            $animales = $model->getAnimalByUsuario($_SESSION['usuario']['id_usu']);
 
             include 'views/modules/cliente/tus_animales.php';
         }

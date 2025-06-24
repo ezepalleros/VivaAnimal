@@ -31,37 +31,42 @@ class TemplateController {
                 return null;
             case 'homepage':
                 return "views/modules/cliente/homepage.php";
+
+            // Cliente
             case 'tus_animales':
-                (new AnimalController())->index();
+                (new AnimalController())->indexAnimal();
                 return null;
             case 'guardar_animal':
-                (new AnimalController())->guardar();
+                (new AnimalController())->saveAnimal();
                 return null;
             case 'editar_animal':
-                (new AnimalController())->editar();
+                (new AnimalController())->editAnimal();
                 return null;
             case 'eliminar_animal':
-                (new AnimalController())->eliminar();
+                (new AnimalController())->deleteAnimal();
                 return null;
             case 'tus_consultas':
                 (new ConsultaController())->getByAnimal();
                 return null;
             case 'hacer_consulta':
-                (new ConsultaController())->index();
+                (new ConsultaController())->indexConsulta();
+                return null;
+            case 'guardar_consulta':
+                (new ConsultaController())->saveConsulta();
                 return null;
 
             // Empleado
             case 'emplepage':
-                (new EmpleadoController())->verPanel();
+                (new EmpleadoController())->verPanelEmpleado();
                 return null;
             case 'emp_consultas':
-                (new ConsultaController())->getByEmpleado();
+                (new EmpleadoController())->getByEmpleado();
                 return null;
             case 'emp_especialidad':
-                (new EmpleadoController())->editarEspecialidad();
+                (new EmpleadoController())->editEspecialidad();
                 return null;
             case 'aceptar_consulta':
-                (new EmpleadoController())->aceptarConsulta();
+                (new EmpleadoController())->checkConsultaEmpleado();
                 return null;
 
             // Admin
@@ -73,49 +78,43 @@ class TemplateController {
                 (new ConsultaController())->indexAdmin();
                 return null;
             case 'usuarios':
-                (new UsuarioController())->index();
+                (new UsuarioController())->indexUsuario();
                 return null;
             case 'guardar_usuario':
-                (new UsuarioController())->guardar();
+                (new UsuarioController())->saveUsuario();
                 return null;
             case 'editar_usuario':
-                (new UsuarioController())->editar();
+                (new UsuarioController())->editUsuarioAdmin();
                 return null;
             case 'eliminar_usuario':
-                (new UsuarioController())->eliminar();
+                (new UsuarioController())->deleteUsuarioAdmin();
                 return null;
             case 'empleados':
-                (new EmpleadoController())->index();
+                (new EmpleadoController())->indexEmpleado();
                 return null;
             case 'guardar_empleado':
-                (new EmpleadoController())->guardar();
-                return null;
-            case 'animales':
-                (new AnimalController())->index();
-                return null;
-            case 'consultas':
-                (new ConsultaController())->index();
-                return null;
-            case 'guardar_consulta':
-                (new ConsultaController())->guardar();
+                (new EmpleadoController())->saveEmpleado();
                 return null;
             case 'admin_animales':
                 (new AnimalController())->indexAdmin();
                 return null;
             case 'editar_animal_admin':
-                (new AnimalController())->editarAdmin();
+                (new AnimalController())->editAdmin();
                 return null;
             case 'eliminar_animal_admin':
-                (new AnimalController())->eliminarAdmin();
+                (new AnimalController())->deleteAnimalAdmin();
                 return null;
             case 'editar_consulta_admin':
-                (new ConsultaController())->editarAdmin();
+                (new ConsultaController())->editConsultaAdmin();
                 return null;
             case 'eliminar_consulta_admin':
-                (new ConsultaController())->eliminarAdmin();
+                (new ConsultaController())->deleteConsultaAdmin();
+                return null;
+            case 'agregar_consulta_admin':
+                (new ConsultaController())->indexAdmin();
                 return null;
             case 'crear_usuario':
-                (new UsuarioController())->crear_usuario();
+                (new UsuarioController())->addUsuarioAdmin();
                 return null;
 
             default:

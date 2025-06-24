@@ -8,7 +8,7 @@ class UsuarioModel {
         $this->conn = Database::getInstance()->getConnection();
     }
 
-    public function getAll() {
+    public function getAllUsuario() {
         $stmt = $this->conn->query("
             SELECT 
                 usuario.*, 
@@ -20,7 +20,7 @@ class UsuarioModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function save($nombre, $email, $telefono, $direccion, $rol = 'cliente') {
+    public function saveUsuario($nombre, $email, $telefono, $direccion, $rol = 'cliente') {
         $stmt = $this->conn->prepare("INSERT INTO usuario (nombre, email, telefono, direccion, rol) VALUES (?, ?, ?, ?, ?)");
         return $stmt->execute([$nombre, $email, $telefono, $direccion, $rol]);
     }
@@ -31,13 +31,13 @@ class UsuarioModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getByEmail($email) {
+    public function getUsuarioByEmail($email) {
         $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function eliminar($id_usu) {
+    public function deleteUsuario($id_usu) {
         // Eliminar empleado si existe
         $stmt = $this->conn->prepare("DELETE FROM empleado WHERE id_usuario = ?");
         $stmt->execute([$id_usu]);
@@ -47,13 +47,13 @@ class UsuarioModel {
         return $stmt->execute([$id_usu]);
     }
 
-    public function getByRol($rol) {
+    public function getUsuarioByRol($rol) {
         $stmt = $this->conn->prepare("SELECT * FROM usuario WHERE rol = ?");
         $stmt->execute([$rol]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function update($id_usu, $nombre, $email, $telefono, $direccion, $rol) {
+    public function updateUsuario($id_usu, $nombre, $email, $telefono, $direccion, $rol) {
         $stmt = $this->conn->prepare("
             UPDATE usuario 
             SET nombre = ?, email = ?, telefono = ?, direccion = ?, rol = ?
@@ -62,7 +62,7 @@ class UsuarioModel {
         return $stmt->execute([$nombre, $email, $telefono, $direccion, $rol, $id_usu]);
     }
 
-    public function getById($id) {
+    public function getUsuarioById($id) {
         $stmt = $this->conn->prepare("
             SELECT 
                 usuario.*, 

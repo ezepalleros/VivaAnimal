@@ -5,22 +5,6 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
 }
 ?>
 
-<div class="form-contenedor">
-    <h2 class="subtitulo-destacado"><?= isset($animal) ? '✏️ Editar animal' : '➕ Agregar nuevo animal' ?></h2>
-    <form action="index.php?modulo=<?= isset($animal) ? 'editar_animal' : 'guardar_animal' ?>" method="POST">
-        <?php if (isset($animal)): ?>
-            <input type="hidden" name="id_ani" value="<?= htmlspecialchars($animal['id_ani']) ?>">
-        <?php endif; ?>
-        <input type="text" name="nombre" placeholder="Nombre" required value="<?= htmlspecialchars($animal['nombre'] ?? '') ?>">
-        <input type="number" name="edad" placeholder="Edad" required value="<?= htmlspecialchars($animal['edad'] ?? '') ?>">
-        <input type="text" name="especie" placeholder="Especie" required value="<?= htmlspecialchars($animal['especie'] ?? '') ?>">
-        <input type="text" name="raza" placeholder="Raza" required value="<?= htmlspecialchars($animal['raza'] ?? '') ?>">
-        <button type="submit" class="btn-animado"><?= isset($animal) ? 'Actualizar' : 'Agregar' ?></button>
-    </form>
-</div>
-
-<hr>
-
 <h2 class="titulo-destacado" style="text-align:center;">🐾 Mis animales</h2>
 
 <?php
@@ -44,3 +28,19 @@ if (isset($animales) && is_array($animales) && count($animales)) {
     echo '<p>No se encontraron animales registrados.</p>';
 }
 ?>
+
+<hr>
+
+<div class="form-contenedor">
+    <h2 class="subtitulo-destacado"><?= isset($animal) ? '✏️ Editar animal' : '➕ Agregar nuevo animal' ?></h2>
+    <form action="index.php?modulo=<?= isset($animal) ? 'editar_animal' : 'guardar_animal' ?>" method="POST">
+        <?php if (isset($animal)): ?>
+            <input type="hidden" name="id_ani" value="<?= htmlspecialchars($animal['id_ani']) ?>">
+        <?php endif; ?>
+        <input type="text" name="nombre" placeholder="Nombre" required value="<?= htmlspecialchars($animal['nombre'] ?? '') ?>">
+        <input type="number" name="edad" placeholder="Edad" required value="<?= htmlspecialchars($animal['edad'] ?? '') ?>">
+        <input type="text" name="especie" placeholder="Especie" required value="<?= htmlspecialchars($animal['especie'] ?? '') ?>">
+        <input type="text" name="raza" placeholder="Raza" required value="<?= htmlspecialchars($animal['raza'] ?? '') ?>">
+        <button type="submit" class="btn-animado"><?= isset($animal) ? 'Actualizar' : 'Agregar' ?></button>
+    </form>
+</div>

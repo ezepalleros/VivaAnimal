@@ -8,7 +8,7 @@ if (!class_exists('Routes')) {
 }
 $ruta = Routes::GetRoutes();
 
-// Determinar página principal según el rol
+// Página principal según rol
 $pagina = "index.php?modulo=login";
 if (isset($_SESSION['usuario']['rol'])) {
     switch ($_SESSION['usuario']['rol']) {
@@ -25,9 +25,7 @@ if (isset($_SESSION['usuario']['rol'])) {
 }
 ?>
 
-<!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Tu CSS personalizado -->
 <link rel="stylesheet" href="<?php echo $ruta; ?>css/style.css">
 
 <body>
@@ -49,7 +47,7 @@ if (isset($_SESSION['usuario']['rol'])) {
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
                             <li>
                                 <?php
-                                // Determinar la homepage según el rol
+                                // Homepage según el rol
                                 $home = "index.php?modulo=login";
                                 if (isset($_SESSION['usuario']['rol'])) {
                                     switch ($_SESSION['usuario']['rol']) {

@@ -20,7 +20,7 @@ body {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     pointer-events: none;
-    z-index: 0; /* Debe ser el menor de todos */
+    z-index: 0;
     overflow: hidden;
     filter: blur(0.1px);
     opacity: 0.9;
@@ -105,7 +105,6 @@ footer {
     width: 100%;
     gap: 16px;
 }
-
 
 /* Textos destacados */
 .p-text {

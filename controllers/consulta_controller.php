@@ -2,18 +2,18 @@
 require_once 'models/consulta_model.php';
 
 class ConsultaController {
-    public function index() {
+    public function indexConsulta() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
             header("Location: index.php?modulo=login");
             exit;
         }
         $model = new ConsultaModel();
-        $animales = $model->getAnimalesPorUsuario($_SESSION['usuario']['id_usu']);
+        $animales = $model->getAnimalesByUsuario($_SESSION['usuario']['id_usu']);
         $empleados = $model->getEmpleados();
         include 'views/modules/cliente/hacer_consulta.php';
     }
 
-    public function guardar() {
+    public function saveConsulta() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'cliente') {
             header("Location: index.php?modulo=login");
             exit;
@@ -23,14 +23,21 @@ class ConsultaController {
             $model = new ConsultaModel();
 
             $fecha_ingresada = $_POST['fecha'];
+            $descripcion = trim($_POST['descripcion']);
+
             if ($fecha_ingresada <= date('Y-m-d')) {
                 echo "<script>alert('La fecha debe ser posterior a hoy.'); window.location.href='index.php?modulo=hacer_consulta';</script>";
                 exit;
             }
 
-            $model->save(
+            if (strlen($descripcion) < 6) {
+                echo "<script>alert('La descripción debe tener al menos 6 caracteres.'); window.location.href='index.php?modulo=hacer_consulta';</script>";
+                exit;
+            }
+
+            $model->saveEmpleado(
                 $fecha_ingresada,
-                $_POST['descripcion'],
+                $descripcion,
                 $_POST['id_animal'],
                 $_POST['id_empleado'],
                 false
@@ -54,7 +61,7 @@ class ConsultaController {
         }
 
         $model = new ConsultaModel();
-        $consultas = $model->getByAnimal($id_animal);
+        $consultas = $model->getConsultaByAnimal($id_animal);
         $animal = $model->getAnimalById($id_animal);
 
         include 'views/modules/cliente/tus_consultas.php';
@@ -69,8 +76,8 @@ class ConsultaController {
         $model = new ConsultaModel();
         $id_empleado = $model->getEmpleadoIdByUsuario($_SESSION['usuario']['id_usu']);
     
-        $consultasPendientes = $model->getConsultasPorEmpleado($id_empleado, 0);
-        $consultasAtendidas = $model->getConsultasPorEmpleado($id_empleado, 1);
+        $consultasPendientes = $model->getConsultasByEmpleado($id_empleado, 0);
+        $consultasAtendidas = $model->getConsultasByEmpleado($id_empleado, 1);
     
         include 'views/modules/empleado/emp_consultas.php';
     }
@@ -84,24 +91,21 @@ class ConsultaController {
         $mensaje = '';
         $error = '';
 
-        // Para selects del formulario
-        $animales = $model->getAllAnimalesConDueño();
+        $animales = $model->getAllAnimales();
         $empleados = $model->getEmpleados();
 
-        // Agregar consulta
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_consulta'])) {
             $fecha = $_POST['fecha'];
             $descripcion = trim($_POST['descripcion']);
             $id_animal = $_POST['id_animal'];
             $id_empleado = $_POST['id_empleado'];
 
-            // Validaciones
             if ($fecha <= date('Y-m-d')) {
                 $error = "La fecha debe ser posterior a hoy.";
             } elseif ($descripcion === '') {
                 $error = "La descripción no puede estar vacía.";
             } else {
-                $ok = $model->save($fecha, $descripcion, $id_animal, $id_empleado, false);
+                $ok = $model->saveEmpleado($fecha, $descripcion, $id_animal, $id_empleado, false);
                 if ($ok) {
                     $mensaje = "Consulta agregada correctamente.";
                 } else {
@@ -110,19 +114,18 @@ class ConsultaController {
             }
         }
 
-        $consultas = $model->getAll();
+        $consultas = $model->getAllConsulta();
         include 'views/modules/admin/admin_consultas.php';
     }
 
-    public function editarAdmin() {
+    public function editConsultaAdmin() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             header("Location: index.php?modulo=login");
             exit;
         }
         $model = new ConsultaModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validaciones aquí...
-            $model->update(
+            $model->updateConsulta(
                 $_POST['id_con'],
                 $_POST['fecha'],
                 $_POST['descripcion'],
@@ -132,23 +135,22 @@ class ConsultaController {
             );
             header("Location: index.php?modulo=admin_consultas");
         } else {
-            $consulta = $model->getById($_GET['id']);
-            $animales = $model->getAllAnimalesConDueño();
+            $consulta = $model->getConsultaById($_GET['id']);
+            $animales = $model->getAllAnimales();
             $empleados = $model->getEmpleados();
             include 'views/modules/admin/editar_consulta.php';
         }
     }
 
-    public function eliminarAdmin() {
+    public function deleteConsultaAdmin() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             header("Location: index.php?modulo=login");
             exit;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_con'])) {
             $model = new ConsultaModel();
-            $model->eliminar($_POST['id_con']);
+            $model->deleteConsulta($_POST['id_con']);
         }
         header("Location: index.php?modulo=admin_consultas");
     }
 }
-

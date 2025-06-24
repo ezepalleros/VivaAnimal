@@ -2,16 +2,16 @@
 require_once 'models/usuario_model.php';
 
 class UsuarioController {
-    public function index() {
+    public function indexUsuario() {
         $model = new UsuarioModel();
-        $usuarios = $model->getAll();
+        $usuarios = $model->getAllUsuario();
         include 'views/modules/usuarios.php';
     }
 
-    public function guardar() {
+    public function saveUsuario() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $model = new UsuarioModel();
-            $model->save($_POST['nombre'], $_POST['email'], $_POST['telefono'], $_POST['direccion'], 'cliente');
+            $model->saveUsuario($_POST['nombre'], $_POST['email'], $_POST['telefono'], $_POST['direccion'], 'cliente');
             header("Location: index.php?modulo=usuarios");
         }
     }
@@ -56,12 +56,12 @@ class UsuarioController {
             $model = new UsuarioModel();
 
             // Validar si el email ya existe
-            if ($model->getByEmail($email)) {
+            if ($model->getUsuarioByEmail($email)) {
                 echo "<script>alert('El email ya está registrado. Por favor, usa otro.'); window.history.back();</script>";
                 exit;
             }
 
-            $model->save($nombre, $email, $telefono, $direccion, 'cliente');
+            $model->saveUsuario($nombre, $email, $telefono, $direccion, 'cliente');
             header("Location: index.php?modulo=login");
             exit;
         } else {
@@ -75,7 +75,7 @@ class UsuarioController {
         header("Location: index.php?modulo=login");
     }
 
-    public function editar() {
+    public function editUsuarioAdmin() {
         if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
             header("Location: index.php?modulo=login");
             exit;
@@ -84,7 +84,7 @@ class UsuarioController {
         $model = new UsuarioModel();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $model->update(
+            $model->updateUsuario(
                 $_POST['id_usu'],
                 $_POST['nombre'],
                 $_POST['email'],
@@ -94,20 +94,20 @@ class UsuarioController {
             );
             header("Location: index.php?modulo=admin_usuarios");
         } else {
-            $usuario = $model->getById($_GET['id']);
+            $usuario = $model->getUsuarioById($_GET['id']);
             include 'views/modules/admin/editar_usuario.php';
         }
     }
     
-    public function eliminar() {
+    public function deleteUsuarioAdmin() {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_usu'])) {
             $model = new UsuarioModel();
-            $model->eliminar($_POST['id_usu']);
+            $model->deleteUsuario($_POST['id_usu']);
             header("Location: index.php?modulo=admin_usuarios");
         }
     }
 
-    public function crear_usuario() {
+    public function addUsuarioAdmin() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nombre = $_POST['nombre'];
             $email = $_POST['email'];
@@ -118,15 +118,15 @@ class UsuarioController {
             $model = new UsuarioModel();
 
             // Validar si el email ya existe
-            if ($model->getByEmail($email)) {
+            if ($model->getUsuarioByEmail($email)) {
                 echo "<script>alert('El email ya está registrado. Por favor, usa otro.'); window.history.back();</script>";
                 exit;
             }
 
-            $model->save($nombre, $email, $telefono, $direccion, $rol);
+            $model->saveUsuario($nombre, $email, $telefono, $direccion, $rol);
 
             // Obtener el id del usuario recién creado
-            $id_usuario = $model->getByEmail($email)['id_usu'];
+            $id_usuario = $model->getUsuarioByEmail($email)['id_usu'];
 
             // Si es empleado, insertar en la tabla empleado
             if ($rol === 'empleado') {
@@ -134,7 +134,7 @@ class UsuarioController {
                 $especialidad = $_POST['especialidad'];
                 $contratacion = $_POST['contratacion'];
                 $empModel = new EmpleadoModel();
-                $empModel->save($especialidad, $contratacion, $id_usuario);
+                $empModel->saveEmpleado($especialidad, $contratacion, $id_usuario);
             }
 
             header("Location: index.php?modulo=admin_usuarios");

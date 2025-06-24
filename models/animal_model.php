@@ -8,13 +8,13 @@ class AnimalModel {
         $this->conn = Database::getInstance()->getConnection();
     }
     
-    public function getByUsuario($id_usuario) {
+    public function getAnimalByUsuario($id_usuario) {
         $stmt = $this->conn->prepare("SELECT * FROM animal WHERE id_usuario = ?");
         $stmt->execute([$id_usuario]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAll() {
+    public function getAllAnimal() {
         $stmt = $this->conn->query("
             SELECT a.*, u.nombre AS nombre_dueño
             FROM animal a
@@ -23,18 +23,18 @@ class AnimalModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getByIdAdmin($id_ani) {
+    public function getAnimalByIdAdmin($id_ani) {
         $stmt = $this->conn->prepare("SELECT * FROM animal WHERE id_ani = ?");
         $stmt->execute([$id_ani]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function deleteAdmin($id_ani) {
+    public function deleteAnimalAdmin($id_ani) {
         $stmt = $this->conn->prepare("DELETE FROM animal WHERE id_ani = ?");
         return $stmt->execute([$id_ani]);
     }
 
 // Actualizar sin validar dueño
-    public function updateAdmin($id_ani, $nombre, $edad, $especie, $raza, $id_usuario) {
+    public function updateAnimalAdmin($id_ani, $nombre, $edad, $especie, $raza, $id_usuario) {
         $stmt = $this->conn->prepare("
             UPDATE animal 
             SET nombre = ?, edad = ?, especie = ?, raza = ?, id_usuario = ? 
@@ -44,26 +44,26 @@ class AnimalModel {
     }
 
     // Agregar nuevo animal
-    public function save($nombre, $edad, $especie, $raza, $id_usuario) {
+    public function saveAnimal($nombre, $edad, $especie, $raza, $id_usuario) {
         $stmt = $this->conn->prepare("INSERT INTO animal (nombre, edad, especie, raza, id_usuario) VALUES (?, ?, ?, ?, ?)");
         return $stmt->execute([$nombre, $edad, $especie, $raza, $id_usuario]);
     }
 
     // Eliminar animal
-    public function delete($id_ani, $id_usuario) {
+    public function deleteAnimal($id_ani, $id_usuario) {
         $stmt = $this->conn->prepare("DELETE FROM animal WHERE id_ani = ? AND id_usuario = ?");
         return $stmt->execute([$id_ani, $id_usuario]);
     }
 
     // Obtener uno para editar
-    public function getById($id_ani, $id_usuario) {
+    public function getAnimalById($id_ani, $id_usuario) {
         $stmt = $this->conn->prepare("SELECT * FROM animal WHERE id_ani = ? AND id_usuario = ?");
         $stmt->execute([$id_ani, $id_usuario]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Modificar animal
-    public function update($id_ani, $nombre, $edad, $especie, $raza, $id_usuario) {
+    public function updateAnimal($id_ani, $nombre, $edad, $especie, $raza, $id_usuario) {
         $stmt = $this->conn->prepare("UPDATE animal SET nombre=?, edad=?, especie=?, raza=? WHERE id_ani=? AND id_usuario=?");
         return $stmt->execute([$nombre, $edad, $especie, $raza, $id_ani, $id_usuario]);
     }
