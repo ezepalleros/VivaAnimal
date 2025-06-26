@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
 
 require_once 'models/usuario_model.php';
 $model = new UsuarioModel();
-$usuarios = $model->getAll();
+$usuarios = $model->getAllUsuario();
 
 $usuarios_por_rol = [
     'cliente' => [],

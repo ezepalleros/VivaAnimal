@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
 
 require_once 'models/animal_model.php';
 $model = new AnimalModel();
-$animales = $model->getAll();
+$animales = $model->getAllAnimal();
 
 if (!isset($mensaje)) $mensaje = '';
 if (!isset($error)) $error = '';
@@ -86,7 +86,7 @@ if (!empty($error)) {
 
 require_once 'models/usuario_model.php';
 $usuarioModel = new UsuarioModel();
-$usuarios = $usuarioModel->getAll();
+$usuarios = $usuarioModel->getAllUsuario();
 $usuarios_ids = array_map(function($u){ return (string)$u['id_usu']; }, $usuarios);
 
 $animales_js = [];
